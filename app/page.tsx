@@ -1,27 +1,42 @@
 "use client"; // This directive marks the component as a client component
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+
+// Extend the window interface to include SC
+declare global {
+  interface Window {
+    SC: any;
+  }
+}
 
 export default function Home() {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://w.soundcloud.com/player/api.js";
     script.onload = () => {
-      const iframeElement = document.querySelector('iframe');
-      const widget = SC.Widget(iframeElement);
+      if (window.SC) {
+        const iframeElement = document.querySelector('iframe');
+        const widget = window.SC.Widget(iframeElement);
 
-      widget.bind(SC.Widget.Events.READY, function() {
-        console.log('SoundCloud widget is ready');
-      });
+        widget.bind(window.SC.Widget.Events.READY, function() {
+          console.log('SoundCloud widget is ready');
+        });
 
-      widget.bind(SC.Widget.Events.PLAY, function() {
-        console.log('SoundCloud widget is playing');
-      });
+        widget.bind(window.SC.Widget.Events.PLAY, function() {
+          console.log('SoundCloud widget is playing');
+        });
+      } else {
+        console.error("SoundCloud Widget API is not available.");
+      }
     };
     document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   return (
@@ -43,7 +58,6 @@ export default function Home() {
           src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/korinayu/sets/stiletto-girl&auto_play=false&color=%230066CC&buying=true&sharing=true&download=true&show_artwork=true&show_playcount=true&show_user=true&start_track=0&single_active=true">
         </iframe>
       </div>
-
     </div>
   );
 }
