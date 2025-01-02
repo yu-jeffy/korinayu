@@ -47,7 +47,6 @@ export default function Home() {
       <div className={styles.linksContainer}>
         <Link href="https://soundcloud.com/korinayu/" className={styles.link}><span>soundcloud</span></Link>
         <Link href="https://open.spotify.com/artist/6HpKZDudi4UzynPFdlRbFE?si=e-JGKdURQLmGonDilo9QAA" className={styles.link}><span>spotify</span></Link>
-        <Link href="https://www.instagram.com/korina.yu" className={styles.link}><span>instagram</span></Link>
         <Link href= "/" className={styles.link}><span>jeff.yu@parallelpolis.llc</span></Link>
       </div>
       <div className={styles.widgetContainer}>
